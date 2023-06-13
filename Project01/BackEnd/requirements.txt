@@ -1,0 +1,7 @@
+flask
+redis
+psycopg2-binary
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-Bcrypt
+Flask-Cors

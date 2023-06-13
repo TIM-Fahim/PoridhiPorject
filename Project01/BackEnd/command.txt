@@ -1,0 +1,14 @@
+python3 -m venv proj-env
+source proj-env/bin/activate
+pip3 install -r requirements.txt 
+python3 run.py
+
+psql -h localhost -p 5432 -U postgres
+sudo -u postgres psql
+
+
+\l+
+create database poridhi_db;
+\c poridhi_db
+
+\dt
