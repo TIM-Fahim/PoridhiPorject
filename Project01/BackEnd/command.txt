@@ -3,6 +3,9 @@ source proj-env/bin/activate
 pip3 install -r requirements.txt 
 python3 run.py
 
+
+#connect to db cli
+
 psql -h localhost -p 5432 -U postgres
 sudo -u postgres psql
 
@@ -10,5 +13,18 @@ sudo -u postgres psql
 \l+
 create database poridhi_db;
 \c poridhi_db
-
+# see all tables
 \dt
+#see the table and key type
+\d students
+# query in students tables
+select * from students;
+
+#generate migration codes
+flask db init
+#ensure the connection to database
+flask db stamp head 
+#apply migration
+flask db migrate
+#update database
+flask db upgrade

@@ -11,3 +11,11 @@ class Students(db.Model):
         self.name = name
         self.phone = phone
         self.numberofexp = numberofexp
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'phone': self.phone,
+            'numberofexp': self.numberofexp
+        }    

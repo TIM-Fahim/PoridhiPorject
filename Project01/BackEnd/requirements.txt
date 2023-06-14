@@ -1,6 +1,6 @@
 flask
 redis
-psycopg2-binary
+psycopg2
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Bcrypt
