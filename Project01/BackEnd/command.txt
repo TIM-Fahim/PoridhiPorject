@@ -28,3 +28,6 @@ flask db stamp head
 flask db migrate
 #update database
 flask db upgrade
+
+#start redis server
+redis-server
