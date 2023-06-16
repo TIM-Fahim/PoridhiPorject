@@ -1,3 +1,11 @@
+npm create vite@latest
+react-application
+JavaScript + SWC
+
+cd react-application
+npm install
+npm run dev
+
 npx create-react-app react-app
 cd react-app
 npm install axios react-router-dom
