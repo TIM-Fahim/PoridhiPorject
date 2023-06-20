@@ -23,14 +23,39 @@ def insertDataToDB():
         return jsonify({"Please provide all the required fields"}), 400
     
     
+# @app.route("/getlist", methods=["GET"])
+# def getDataFromDB():
+#         students = getAllData()
+#         serialized_students = [student.serialize() for student in students]
+#         data = []
+#         for student in serialized_students:
+#             data.append({'id': student['id'], 'name': student['name'], 'phone': student['phone'], 'numberofexp': student['numberofexp']})
+#         return jsonify({'message': 'success', 'isCached': 'No', 'data': data}), 200
+
+import redis
+from flask import jsonify
+
+
 @app.route("/getlist", methods=["GET"])
 def getDataFromDB():
-        students = getAllData()
-        serialized_students = [student.serialize() for student in students]
-        data = []
-        for student in serialized_students:
-            data.append({'id': student['id'], 'name': student['name'], 'phone': student['phone'], 'numberofexp': student['numberofexp']})
-        return jsonify({'message': 'success', 'isCached': 'No', 'data': data}), 200
+    # Check if data is cached in Redis
+    cached_data = getRedisCache("student_data")
+    if cached_data:
+        # Data found in Redis cache, return it
+        return jsonify({'message': 'success', 'isCached': 'Yes', 'data': cached_data}), 200
+
+    # Data not found in Redis cache, fetch from the database
+    students = getAllData()
+    serialized_students = [student.serialize() for student in students]
+    data = []
+    for student in serialized_students:
+        data.append({'id': student['id'], 'name': student['name'], 'phone': student['phone'], 'numberofexp': student['numberofexp']})
+
+    # Cache the data in Redis for future requests
+    setRedisCache("student_data", data)
+
+    return jsonify({'message': 'success', 'isCached': 'No', 'data': data}), 200
+
 
 @app.route("/delete", methods=["DELETE"])
 def deleteDataFromDB():

@@ -1,3 +1,4 @@
+import json
 from app import db
 from models import Students
 from app import redis_db
@@ -33,17 +34,16 @@ def getAllData():
 def getDataById(id):
     return Students.query.filter_by(id=id).first()
 
-def setRedisCache(name, phone, numberofexp):
-    redis_db.set("name", name)
-    redis_db.set("phone", phone)
-    redis_db.set("numberofexp", numberofexp)
-    return
+def setRedisCache(key, data):
+    serialized_data = json.dumps(data)
+    redis_db.set(key, serialized_data)
 
-def getRedisCache():
-    name = redis_db.get("name")
-    phone = redis_db.get("phone")
-    numberofexp = redis_db.get("numberofexp")
-    return {"name": name, "phone": phone, "numberofexp": numberofexp}
+def getRedisCache(key):
+    serialized_data = redis_db.get(key)
+    if serialized_data is not None:
+        data = json.loads(serialized_data)
+        return data
+    return None
 
 def deleteRedisCache():
     redis_db.delete("name")
